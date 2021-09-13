@@ -1,19 +1,17 @@
 const express = require('express');
 const notes  = require('./db/db.json')
-
-
 const app = express();
+
 const htmlRoutes = require('./public/routes/htmlroutes');
 // const apiRoutes = require('./public/routes/apiroutes');
 
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/', htmlRoutes);
 app.use(express.static('public'));
 
-// // Use apiRoutes
-// app.use('/api', apiRoutes);
-// app.use('/', htmlRoutes);
+
 
 function findById(id, notesArray) {
   const result = notesArray.filter(note => note.id === id)[0];

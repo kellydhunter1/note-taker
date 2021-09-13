@@ -1,7 +1,7 @@
-const router = require('express').Router();
+const app = require('express')
 const { notes } = require('../../db/db');
 
-router.get('/notes', (req, res) => {
+app.get('/notes', (req, res) => {
     notes = filterByQuery(req.query, notes);
     res.json(notes);
     console.log(notes);
