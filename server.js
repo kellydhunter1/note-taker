@@ -1,7 +1,7 @@
 const express = require('express');
+const notes  = require('./db/db.json')
 
 
-const PORT = process.env.PORT || 3001;
 const app = express();
 const htmlRoutes = require('./public/routes/htmlroutes');
 // const apiRoutes = require('./public/routes/apiroutes');
@@ -13,9 +13,29 @@ app.use(express.static('public'));
 
 // // Use apiRoutes
 // app.use('/api', apiRoutes);
-app.use('/', htmlRoutes);
+// app.use('/', htmlRoutes);
 
-// 
+function findById(id, notesArray) {
+  const result = notesArray.filter(note => note.id === id)[0];
+  return(result);
+};
+
+app.get('/api/notes', (req, res) => {
+  res.json(notes);
+});
+
+app.get('/api/notes/:id', (req, res) => {
+  const result = findById(req.params.id, notes);
+if (result) {
+  res.json(result);
+}
+else{
+  res.sendStatus(404);
+}
+});
+
+// server connection
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
 });
